@@ -1,0 +1,27 @@
+{
+    "name": "cdktf-aws-athena",
+    "image": "mcr.microsoft.com/devcontainers/typescript-node:20-bookworm",
+    "features": {
+        "ghcr.io/devcontainers/features/terraform:1": {
+            "version": "1.7.3"
+        }
+    },
+    "customizations": {
+        "vscode": {
+            "settings": {
+                "terminal.integrated.profiles.linux": {
+                    "bash": {
+                        "path": "/bin/bash"
+                    }
+                },
+                "terminal.integrated.defaultProfile.linux": "bash"
+            },
+            "extensions": [
+                "esbenp.prettier-vscode",
+                "redhat.vscode-yaml"
+            ]
+        }
+    },
+    "postCreateCommand": "npm install --global cdktf-cli@0.20.3",
+    "runArgs": ["--env-file",".devcontainer/devcontainer.env"]
+}
