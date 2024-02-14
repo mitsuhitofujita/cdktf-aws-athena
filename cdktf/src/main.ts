@@ -1,14 +1,20 @@
-import { Construct } from "constructs";
-import { App, TerraformStack } from "cdktf";
+import { App } from "cdktf";
+import { AthenaStack } from "./stacks/athena-stack";
 
-class MyStack extends TerraformStack {
-  constructor(scope: Construct, id: string) {
-    super(scope, id);
-
-    // define resources here
-  }
-}
-
+const project = "cdktf-aws-athena";
+const environment = "dev";
 const app = new App();
-new MyStack(app, "cdktf");
+new AthenaStack(app, "data-store", {
+  backend: {
+    bucket: process.env.TERRAFORM_S3_BACKEND_BUCKET,
+    key: `${project}/data-store/${environment}.tfstate`,
+    region: process.env.AWS_DEFAULT_REGION,
+  },
+  provider: {
+    region: process.env.AWS_DEFAULT_REGION,
+  },
+  domain: process.env.TERRAFORM_DOMAIN,
+  project,
+  environment,
+});
 app.synth();
